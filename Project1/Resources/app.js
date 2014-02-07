@@ -5,7 +5,6 @@ var win = Ti.UI.createWindow({
 	title:  "My Favorite Cars",
 	backgroundColor: "#D7DADB",
 	modal: true,
-	// layout: "horizontal"
 	
 });
 

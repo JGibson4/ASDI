@@ -15,7 +15,6 @@ exports.views = function infoView() {
 			textAlign: "center",
 			font: {fontSize: 14, fontFamily: "arial"},
 			color: "fff",
-			left: 10,
 			top:10
 		});
 		view.add(carLabel);
