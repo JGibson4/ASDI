@@ -26,6 +26,7 @@ var image = Ti.UI.createImageView ({
 	image: url
 });
 
+
 var authorText = Ti.UI.createLabel ({
 	left:15,
 	right:15,

@@ -1,9 +1,9 @@
 
-
 var db = Ti.Database.open("contacts");
 db.execute("CREATE TABLE IF NOT EXISTS contacts (id INTEGER PRIMARY KEY, user TEXT)");
 
 var rows = require("row");
+var feed = require("feed");
 var data = rows.rows();
 
 var tableView = Ti.UI.createTableView({
@@ -13,51 +13,94 @@ var tableView = Ti.UI.createTableView({
 
 var tabGroup = Ti.UI.createTabGroup();
 
-
-var win = Ti.UI.createWindow({
-	title: "Remote Data",
-	backgroundColor: "#D7DADB",
-	modal: true,
+var mainWindow = Ti.UI.createWindow({
+    title:'Contact Form',
+    backgroundColor:'#D7DADB'
 });
-
-var navWindow = Ti.UI.iOS.createNavigationWindow({
-	window: win
-
-});
-
 var tab1 = Ti.UI.createTab({
     icon:'KS_nav_views.png',
     title:'Form',
-    window:win
+    window:mainWindow
 });
-
-
-
 
 var entriesWindow = Ti.UI.createWindow({
     title:'Contact List',
     backgroundColor:'#D7DADB'
 });
-
 var tab2 = Ti.UI.createTab({
     icon:'KS_nav_ui.png',
     title:'Contacts',
     window:entriesWindow
 });
 
+var feedWindow = Ti.UI.createWindow({
+    title:'Reddit',
+    backgroundColor:'#D7DADB'
+    
+});
 
-
-var image = Ti.UI.createImageView ({
-	left:15,
-	right:15,
+var tab3 = Ti.UI.createTab({
+    icon:'KS_nav_ui.png',
+    title:'feed',
+    window:feedWindow
 });
 
 var scrollView = Ti.UI.createScrollView ({
-	showVerticleScaleIndicator: true,
-	layout: "vertical"
+showVerticleScaleIndicator: true,
+layout: "vertical"
 });
 
-var remoteData = require('remote_data');
+var remoteData = require('feed');
+
+var firstName = Ti.UI.createTextField({
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+	hintText: "*First Name",
+	textAlign: "left",
+	color: "#000",
+	top: 5,
+	height: 60,
+	width: 300,
+});
+
+var lastName = Ti.UI.createTextField({
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+	hintText: "*Last Name",
+	textAlign: "left",
+	color: "#000",
+	top: (firstName.top)+65,
+	height: 60,
+	width: 300,
+});
+
+var phoneNumber = Ti.UI.createTextField({
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+	keyboardType: Ti.UI.KEYBOARD_NUMBER_PAD,
+	hintText: "Phone Number",
+	textAlign: "left",
+	color: "#000",
+	top: (lastName.top)+65, 
+	width: 300, 
+	height: 60,
+});
+
+var submit = Ti.UI.createButton({
+	top: 200,
+	title: "Submit",
+	color: "#fff",
+	height: 60,
+	width: 300,
+	backgroundColor: "#BF3D28",
+});
+
+var requiredLabel = Ti.UI.createLabel({
+	text: "*Denotes required",
+	top: 265,
+	left: 10,
+	color: "#BF3D28",
+	font: {fontSize:10,fontFamily:'arial'}
+});
+
+
 var editWindow = Ti.UI.createWindow({
 	title: "Edit Contact",
 	backgroundColor: "#D7DADB",
@@ -135,10 +178,10 @@ var confirm = {
 var req = require("crud");
 
 editWindow.add(editFname, editLname, editPhone, save, cancel);
-win.add(image);
-win.add(scrollView);
-navWindow.open();
+mainWindow.add(firstName, lastName, phoneNumber, requiredLabel, submit);
 entriesWindow.add(tableView);
+feedWindow.add(scrollView);
 tabGroup.addTab(tab1);
 tabGroup.addTab(tab2);
+tabGroup.addTab(tab3);
 tabGroup.open();
